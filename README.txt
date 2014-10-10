@@ -20,6 +20,7 @@ Dependencies:
   	- Eigen: Template library for linear algebra (libeigen3-dev)
   Optional:
     - OpenMP: Open Multi-Processing library (www.openmp.com)
+    - TomGine 4.1: Visualization and rendering engine (http://users.acin.tuwien.ac.at/tmoerwald/?site=4)
 
 TomGine control:
   [left mousebutton] rotate view
@@ -35,7 +36,7 @@ TomGine control:
   [q/Esc] Quit
   
 
-Instructions:
+Installation:
   mkdir build
   cd build
   cmake ..
