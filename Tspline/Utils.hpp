@@ -34,8 +34,8 @@
 #ifndef _TSPLINE_UTILS_HPP_
 #define _TSPLINE_UTILS_HPP_
 
-#include "v4r/Tspline/Tspline.h"
-#include "v4r/Tspline/TsplineMultiPatch.h"
+#include "Tspline/Tspline.h"
+#include "Tspline/TsplineMultiPatch.h"
 #include "v4r/TomGine/tgTomGineThread.h"
 #include "v4r/TomGine/tgShapeCreator.h"
 

@@ -28,7 +28,7 @@ include_directories(.)
 
 include(openmp.cmake)
 
-add_subdirectory(src)
+add_subdirectory(Tspline)
 add_subdirectory(apps)
 
 
