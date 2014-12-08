@@ -3,6 +3,7 @@
 #  OPENTSPLINE_INCLUDE_DIRS - include directories for FooBar
 #  OPENTSPLINE_LIBRARIES    - libraries to link against
 #  OPENTSPLINE_EXECUTABLE   - the bar executable
+#  OPENTSPLINE_FOUND        - set to 1
  
 # Compute paths
 get_filename_component(OPENTSPLINE_CMAKE_DIR "${CMAKE_CURRENT_LIST_FILE}" PATH)
@@ -14,5 +15,6 @@ endif()
 
 set(OPENTSPLINE_INCLUDE_DIRS "@CONF_INCLUDE_DIRS@")
 set(OPENTSPLINE_LIBRARY_DIRS "@CONF_LIBRARY_DIRS@")
-set(OPENTSPLINE_LIBRARIES lib)
+set(OPENTSPLINE_LIBRARIES OpenTspline)
 set(OPENTSPLINE_EXECUTABLE bin)
+set(OPENTSPLINE_FOUND 1)
