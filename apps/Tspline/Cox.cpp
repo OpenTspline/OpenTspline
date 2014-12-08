@@ -34,7 +34,7 @@
 /** @brief Testing basis function evaluation */
 
 #include "v4r/TomGine/tgTomGineThread.h"
-#include "v4r/Tspline/Cox.h"
+#include "Tspline/Cox.h"
 #include <iostream>
 
 using namespace tspline;

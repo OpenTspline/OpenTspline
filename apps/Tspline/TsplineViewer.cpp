@@ -31,8 +31,8 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "v4r/Tspline/Utils.hpp"
-#include "v4r/Tspline/File.h"
+#include "Tspline/Utils.hpp"
+#include "Tspline/File.h"
 
 using namespace tspline;
 using namespace TomGine;

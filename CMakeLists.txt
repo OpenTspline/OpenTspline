@@ -35,7 +35,7 @@ add_subdirectory(apps)
 # OpenTsplineConfig.cmake
 # -----------------------
 # Add all targets to the build-tree export set
-export(TARGETS Tspline FILE "${PROJECT_BINARY_DIR}/OpenTsplineTargets.cmake")
+export(TARGETS tspline FILE "${PROJECT_BINARY_DIR}/OpenTsplineTargets.cmake")
  
 # Export the package for use from the build-tree
 # (this registers the build-tree with a global CMake-registry)

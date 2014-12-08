@@ -31,11 +31,11 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "v4r/Tspline/TsplineMultiPatch.h"
-#include "v4r/Tspline/TsplineCreator.h"
-#include "v4r/Tspline/Utils.hpp"
+#include "Tspline/TsplineMultiPatch.h"
+#include "Tspline/TsplineCreator.h"
+#include "Tspline/Utils.hpp"
 
-#include "v4r/Tspline/File.h"
+#include "Tspline/File.h"
 
 using namespace tspline;
 using namespace TomGine;

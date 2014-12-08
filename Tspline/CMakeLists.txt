@@ -44,11 +44,11 @@ if ( CGAL_FOUND )
 
   set(SOURCE_H_EXT Utils.hpp)
 
-  add_library(Tspline SHARED ${SOURCE_CPP} ${SOURCE_H})
-  target_link_libraries(Tspline ${CGAL_LIBRARIES})
+  add_library(tspline SHARED ${SOURCE_CPP} ${SOURCE_H})
+  target_link_libraries(tspline ${CGAL_LIBRARIES})
 
   install(FILES ${SOURCE_H} ${SOURCE_H_EXT} DESTINATION "${INSTALL_INCLUDE_DIR}/Tspline")
-  install(TARGETS Tspline
+  install(TARGETS tspline
     EXPORT OpenTsplineTargets
     RUNTIME DESTINATION "${INSTALL_BIN_DIR}" COMPONENT bin
     LIBRARY DESTINATION "${INSTALL_LIB_DIR}" COMPONENT lib

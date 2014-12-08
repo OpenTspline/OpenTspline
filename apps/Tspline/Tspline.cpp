@@ -31,10 +31,10 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-#include "v4r/Tspline/Utils.hpp"
-#include "v4r/Tspline/File.h"
+#include "Tspline/Utils.hpp"
+#include "Tspline/File.h"
 
-#include "v4r/Tspline/TsplineCreator.h"
+#include "Tspline/TsplineCreator.h"
 
 TomGine::tgTomGineThread viewer (800, 600, "T-spline", false, 0.1, 100.0);
 
