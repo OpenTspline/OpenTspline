@@ -21,20 +21,7 @@ Dependencies:
   Optional:
     - OpenMP: Open Multi-Processing library (www.openmp.com)
     - TomGine 4.1: Visualization and rendering engine (http://users.acin.tuwien.ac.at/tmoerwald/?site=4)
-
-TomGine control:
-  [left mousebutton] rotate view
-  [right mousebutton] pan view
-  [middle mousebutton/scroll] zoom view
-  [d] show dots on/off 
-  [l] show lines on/off
-  [m] show mesh on/off   
-  [o] print out current view matrix and camera matrix   
-  [w] wireframe on/off
-  [z] reset view
-  [F11] save screenshot to file
-  [q/Esc] Quit
-  
+ 
 
 Installation:
   mkdir build
