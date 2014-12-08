@@ -26,7 +26,7 @@ TomGine control:
   [left mousebutton] rotate view
   [right mousebutton] pan view
   [middle mousebutton/scroll] zoom view
-  [d] show dots on/off
+  [d] show dots on/off 
   [l] show lines on/off
   [m] show mesh on/off   
   [o] print out current view matrix and camera matrix   
