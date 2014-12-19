@@ -54,33 +54,39 @@ namespace tspline
 
         if (p == 0)
         {
-          double &n = N[s];
-          n = 0.0;
-
           // Equation (2.1) in [1]
-          if (gequal(xi, knots[s]))
-            if (smaller(xi, knots[s+1]))
-              n = 1.0;
-
-          if (smaller(s+1+degree, nknots))
-            if (equal(knots[s+1], knots[s+1+degree])) // check for interpolating knot on the right side
+          if(gequal(xi, knots[s]))
+            if(smaller(xi, knots[s+1]))
               N[s] = 1.0;
+
+          // check for interpolating knot on the right side [hacky]
+          if(equal(xi,knots[nknots-1]))
+          {
+            if(s+1+degree < nknots)
+              if(equal(knots[s+1], knots[s+1+degree]))
+                N[s] = 1.0;
+
+            if(s+degree < nknots)
+              if(equal(knots[s+1], knots[s+degree]))
+                N[s] = 1.0;
+          }
+
         }
         else
         {
           // Equation (2.2)
-          double A = 0.0;
-          double B = 0.0;
+          double A(0.0);
+          double B(0.0);
 
-          if (!equal (knots[s+p], knots[s]))
+          if( !equal(knots[s],knots[s+p]) )
             A = (xi - knots[s]) / (knots[s+p] - knots[s]);
 
-          if (!equal (knots[s+p+1], knots[s+1]))
+          if( !equal(knots[s+1],knots[s+p+1]) )
             B = (knots[s+p+1] - xi) / (knots[s+p+1] - knots[s+1]);
 
-          if (A < 0.0)
+          if(A < 0.0)
             A = 0.0;
-          if (B < 0.0)
+          if(B < 0.0)
             B = 0.0;
 
           N[s + p*nknots] = A * N[s + (p-1)*nknots] + B * N[(s+1) + (p-1)*nknots];
@@ -100,13 +106,13 @@ namespace tspline
     for (unsigned s = 0; s < nknots - 1; s++)
     {
       // Equation (2.12)
-      double A = 0.0;
-      double B = 0.0;
+      double A(0.0);
+      double B(0.0);
 
-      if (!equal (knots[s+p], knots[s]))
+      if(!equal (knots[s+p], knots[s]))
         A = p / (knots[s+p] - knots[s]);
 
-      if (!equal (knots[s+p+1], knots[s+1]))
+      if(!equal (knots[s+p+1], knots[s+1]))
         B = p / (knots[s+p+1] - knots[s+1]);
 
       if (A < 0.0)

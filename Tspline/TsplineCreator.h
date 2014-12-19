@@ -45,10 +45,15 @@ namespace tspline{
 class TsplineCreator
 {
 public:
-  static void CreateUniformPlaneXY(tspline::Tspline &tsp,
-                                  double x0, double y0, double z0,
-                                  double width, double height,
-                                  unsigned segX, unsigned segY);
+//  static void CreateUniformPlaneXY(tspline::Tspline &tsp,
+//                                  double x0, double y0, double z0,
+//                                  double width, double height,
+//                                  unsigned segX, unsigned segY);
+
+  static void CreateClampedPlaneXY(tspline::Tspline &tsp,
+                                   double x0, double y0, double z0,
+                                   double width, double height,
+                                   unsigned segX, unsigned segY);
 
   static void CreatePlaneXY(tspline::Tspline &tsp,
                             double x0, double y0, double z0,

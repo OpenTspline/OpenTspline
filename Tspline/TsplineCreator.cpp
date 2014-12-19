@@ -36,129 +36,206 @@
 using namespace tspline;
 
 
-void TsplineCreator::CreateUniformPlaneXY(tspline::Tspline &tsp,
+//void TsplineCreator::CreateUniformPlaneXY(tspline::Tspline &tsp,
+//                                          double x0, double y0, double z0,
+//                                          double width, double height,
+//                                          unsigned segX, unsigned segY)
+//{
+//  double dsegX(width / segX);
+//  double dsegY(height / segY);
+//  double x1 = x0+width;
+//  double y1 = y0+height;
+
+//  // init vertices
+//  for(unsigned j=0; j<segY+1; j++)
+//  {
+//    double y = y0+j*dsegY;
+//    for(unsigned i=0; i<segX+1; i++)
+//    {
+//      double x = x0+i*dsegX;
+//      CGAL::insert_point(tsp, Point2d( x, y ));
+//    }
+//  }
+
+//  // init grid
+//  for(unsigned i=0; i<segX+1; i++)
+//  {
+//    double x = x0 + i * dsegX;
+//    CGAL::insert( tsp, Segment2(Point2d (x, y0), Point2d (x, y1)) );
+//  }
+//  for(unsigned j=0; j<segY+1; j++)
+//  {
+//    double y = y0 + j * dsegY;
+//    CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x1, y)) );
+//  }
+
+//  //  double stepX(width / segX);
+//  //  double stepY(height / segY);
+//  //  double epsX = stepX * 0.1;
+//  //  double epsY = stepY * 0.1;
+//  //  double x1 = x0+width;
+//  //  double y1 = y0+height;
+
+//  //  for(double j=y0; j<y1+epsY; j+=stepY)
+//  //    for(double i=x0; i<x1+epsX; i+=stepX)
+//  //      CGAL::insert_point(tsp, Point2d(i,j));
+
+//  //  // init grid
+//  //  for(double i=x0; i<x1+epsX; i+=stepX)
+//  //    CGAL::insert( tsp, Segment2(Point2d (i, y0), Point2d (i, y1)) );
+
+//  //  for(double j=y0; j<y1+epsY; j+=stepY)
+//  //    CGAL::insert( tsp, Segment2(Point2d (x0, j), Point2d (x1, j)) );
+
+//  // init edge distances
+//  tspline::Tspline::Halfedge_iterator eit;
+//  for (eit = tsp.halfedges_begin (); eit != tsp.halfedges_end (); eit++)
+//  {
+//    tspline::Tspline::Vertex_iterator v1 = eit->source();
+//    tspline::Tspline::Vertex_iterator v2 = eit->target();
+//    const Point2d& p1 = v1->point();
+//    const Point2d& p2 = v2->point();
+
+//    tspline::THalfedge& ext = eit->data();
+//    ext.d = std::sqrt( (p1 - p2).squared_length());
+
+//    if(equal(p1.y(),p2.y())) // horizontal
+//    {
+//      if(tsp.get_left_halfedge(v1) ==tsp.halfedges_end() ||
+//         tsp.get_left_halfedge(v2) ==tsp.halfedges_end() ||
+//         tsp.get_right_halfedge(v1)==tsp.halfedges_end() ||
+//         tsp.get_right_halfedge(v2)==tsp.halfedges_end() )
+//      {
+//        ext.d = 0.0;
+//      }else{
+//        ext.d = ext.d / (segX-2) * segX;
+//      }
+//    }
+//    if(equal(p1.x(),p2.x())) // vertical
+//    {
+//      if(tsp.get_top_halfedge(v1) ==tsp.halfedges_end() ||
+//         tsp.get_top_halfedge(v2) ==tsp.halfedges_end() ||
+//         tsp.get_bottom_halfedge(v1)==tsp.halfedges_end() ||
+//         tsp.get_bottom_halfedge(v2)==tsp.halfedges_end() )
+//      {
+//        ext.d = 0.0;
+//      }else{
+//        ext.d = ext.d / (segY-2) * segY;
+//      }
+//    }
+
+//    ext.d = adjust(ext.d);
+//    //    for(size_t d=0; d<tsp.degree-2; d++)
+//    //    {
+
+//    //      size_t d1 = d+1;
+//    //      if ( (p1.y() == d && p2.y() == d1) || (p1.y() == d1 && p2.y() == d))
+//    //        e.d = 0;
+//    //      if ( (p1.x() == d && p2.x() == d1) || (p1.x() == d1 && p2.x() == d))
+//    //        e.d = 0;
+//    //      if ( (p1.y() == dim-d1 && p2.y() == dim-d) || (p1.y() == dim-d && p2.y() == dim-d1))
+//    //        e.d = 0;
+//    //      if ( (p1.x() == dim-d1 && p2.x() == dim-d) || (p1.x() == dim-d && p2.x() == dim-d1))
+//    //        e.d = 0;
+//    //    }
+//  }
+//  tsp.clamped = false;
+
+//  // init control points
+//  int vid(0);
+//  tspline::Tspline::Vertex_iterator vit;
+//  for (vit = tsp.vertices_begin(); vit != tsp.vertices_end(); vit++)
+//  {
+//    Point2d& p = vit->point();
+//    p = adjust(p);
+
+//    tspline::TVertex vext = vit->data();
+//    vext.SetCP(Point3d(p.x(), p.y(), z0));
+//    vext.id = vid++;
+//    vit->set_data(vext);
+//  }
+
+
+//  // update parameter space and knot vectors
+//  tsp.update_params ();
+//  tsp.update_knot_vectors ();
+//}
+
+void TsplineCreator::CreateClampedPlaneXY(tspline::Tspline &tsp,
                                           double x0, double y0, double z0,
                                           double width, double height,
                                           unsigned segX, unsigned segY)
 {
   double dsegX(width / segX);
   double dsegY(height / segY);
-  double x1 = x0+width;
-  double y1 = y0+height;
+  double dgridX(width/(segX-2));
+  double dgridY(height/(segY-2));
 
   // init vertices
+  int vid(0);
   for(unsigned j=0; j<segY+1; j++)
   {
-    double y = y0+j*dsegY;
+    double ycp = y0+j*dsegY;
+    double y = y0 + j * dgridY;
     for(unsigned i=0; i<segX+1; i++)
     {
-      double x = x0+i*dsegX;
-      CGAL::insert_point(tsp, Point2d( x, y ));
+      double xcp = x0+i*dsegX;
+      double x = x0 + i * dgridX;
+      Tspline::Vertex_handle v = CGAL::insert_point(tsp, Point2d( x, y ));
+      v->data().id = vid++;
+      v->data().SetCP(Point3d(xcp,ycp,z0));
     }
   }
 
   // init grid
   for(unsigned i=0; i<segX+1; i++)
   {
-    double x = x0 + i * dsegX;
-    CGAL::insert( tsp, Segment2(Point2d (x, y0), Point2d (x, y1)) );
+    double x = x0 + i * dgridX;
+    CGAL::insert( tsp, Segment2(Point2d (x, y0), Point2d (x, y0+height+2*dgridY)) );
   }
   for(unsigned j=0; j<segY+1; j++)
   {
-    double y = y0 + j * dsegY;
-    CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x1, y)) );
+    double y = y0 + j * dgridY;
+    CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x0+width+2*dgridX, y)) );
   }
-
-  //  double stepX(width / segX);
-  //  double stepY(height / segY);
-  //  double epsX = stepX * 0.1;
-  //  double epsY = stepY * 0.1;
-  //  double x1 = x0+width;
-  //  double y1 = y0+height;
-
-  //  for(double j=y0; j<y1+epsY; j+=stepY)
-  //    for(double i=x0; i<x1+epsX; i+=stepX)
-  //      CGAL::insert_point(tsp, Point2d(i,j));
-
-  //  // init grid
-  //  for(double i=x0; i<x1+epsX; i+=stepX)
-  //    CGAL::insert( tsp, Segment2(Point2d (i, y0), Point2d (i, y1)) );
-
-  //  for(double j=y0; j<y1+epsY; j+=stepY)
-  //    CGAL::insert( tsp, Segment2(Point2d (x0, j), Point2d (x1, j)) );
 
   // init edge distances
   tspline::Tspline::Halfedge_iterator eit;
-  for (eit = tsp.halfedges_begin (); eit != tsp.halfedges_end (); eit++)
+  for (eit = tsp.halfedges_begin(); eit != tsp.halfedges_end(); eit++)
   {
     tspline::Tspline::Vertex_iterator v1 = eit->source();
     tspline::Tspline::Vertex_iterator v2 = eit->target();
     const Point2d& p1 = v1->point();
     const Point2d& p2 = v2->point();
 
-    tspline::THalfedge& ext = eit->data();
-    ext.d = std::sqrt( (p1 - p2).squared_length());
-
     if(equal(p1.y(),p2.y())) // horizontal
     {
-      if(tsp.get_left_halfedge(v1) ==tsp.halfedges_end() ||
-         tsp.get_left_halfedge(v2) ==tsp.halfedges_end() ||
-         tsp.get_right_halfedge(v1)==tsp.halfedges_end() ||
-         tsp.get_right_halfedge(v2)==tsp.halfedges_end() )
-      {
-        ext.d = 0.0;
-      }else{
-        ext.d = ext.d / (segX-2) * segX;
-      }
+      if(tsp.get_left_halfedge(v1)==tsp.halfedges_end() || // left border
+         tsp.get_left_halfedge(v2)==tsp.halfedges_end() ||
+         tsp.get_right_halfedge(v1)==tsp.halfedges_end()||  // right border
+         tsp.get_right_halfedge(v2)==tsp.halfedges_end())
+        eit->data().d = 0.0;
+      else
+        eit->data().d = dgridX;
     }
-    if(equal(p1.x(),p2.x())) // vertical
+    else if(equal(p1.x(),p2.x())) // vertical
     {
-      if(tsp.get_top_halfedge(v1) ==tsp.halfedges_end() ||
-         tsp.get_top_halfedge(v2) ==tsp.halfedges_end() ||
-         tsp.get_bottom_halfedge(v1)==tsp.halfedges_end() ||
-         tsp.get_bottom_halfedge(v2)==tsp.halfedges_end() )
-      {
-        ext.d = 0.0;
-      }else{
-        ext.d = ext.d / (segY-2) * segY;
-      }
+      if(tsp.get_bottom_halfedge(v1)==tsp.halfedges_end() || // bottom border
+         tsp.get_bottom_halfedge(v2)==tsp.halfedges_end() ||
+         tsp.get_top_halfedge(v1)==tsp.halfedges_end() ||    // top border
+         tsp.get_top_halfedge(v2)==tsp.halfedges_end())
+        eit->data().d = 0.0;
+      else
+        eit->data().d = dgridY;
     }
-
-    ext.d = adjust(ext.d);
-    //    for(size_t d=0; d<tsp.degree-2; d++)
-    //    {
-
-    //      size_t d1 = d+1;
-    //      if ( (p1.y() == d && p2.y() == d1) || (p1.y() == d1 && p2.y() == d))
-    //        e.d = 0;
-    //      if ( (p1.x() == d && p2.x() == d1) || (p1.x() == d1 && p2.x() == d))
-    //        e.d = 0;
-    //      if ( (p1.y() == dim-d1 && p2.y() == dim-d) || (p1.y() == dim-d && p2.y() == dim-d1))
-    //        e.d = 0;
-    //      if ( (p1.x() == dim-d1 && p2.x() == dim-d) || (p1.x() == dim-d && p2.x() == dim-d1))
-    //        e.d = 0;
-    //    }
+    else
+      throw std::runtime_error("[TsplineCreator::CreatePlaneXY] Error, invalid edge.");
   }
+
+  // update parameter space of tsp
+  tsp.update_params();
+  tsp.update_knot_vectors();
   tsp.clamped = false;
-
-  // init control points
-  int vid(0);
-  tspline::Tspline::Vertex_iterator vit;
-  for (vit = tsp.vertices_begin(); vit != tsp.vertices_end(); vit++)
-  {
-    Point2d& p = vit->point();
-    p = adjust(p);
-
-    tspline::TVertex vext = vit->data();
-    vext.SetCP(Point3d(p.x(), p.y(), z0));
-    vext.id = vid++;
-    vit->set_data(vext);
-  }
-
-
-  // update parameter space and knot vectors
-  tsp.update_params ();
-  tsp.update_knot_vectors ();
 }
 
 void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
@@ -170,7 +247,6 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
   double dsegY(height / segY);
   double x1 = x0+width;
   double y1 = y0+height;
-
   // init vertices
   int vid(0);
   for(unsigned j=0; j<segY+1; j++)
@@ -184,7 +260,6 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
       v->data().SetCP(Point3d(x,y,z0));
     }
   }
-
   // init grid
   for(unsigned i=0; i<segX+1; i++)
   {
@@ -196,7 +271,6 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
     double y = y0 + j * dsegY;
     CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x1, y)) );
   }
-
   // init edge distances
   tspline::Tspline::Halfedge_iterator eit;
   for (eit = tsp.halfedges_begin(); eit != tsp.halfedges_end(); eit++)
@@ -205,7 +279,6 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
     const Point2d& p2 = eit->target()->point();
     eit->data().d = std::sqrt((p1 - p2).squared_length());
   }
-
   // update parameter space of tsp
   tsp.update_params();
   tsp.update_knot_vectors();
