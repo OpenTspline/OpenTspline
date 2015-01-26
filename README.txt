@@ -16,17 +16,11 @@ Modules:
 
 Dependencies:
   Required:
-  	- CGAL: Computational Geometry Algorithms Library (libcgal-dev)
-  	- Eigen: Template library for linear algebra (libeigen3-dev)
+  	- CGAL 4.4: Computational Geometry Algorithms Library (libcgal-dev)
+  	- Eigen 3.2.0: Template library for linear algebra (libeigen3-dev)
   Optional:
     - OpenMP: Open Multi-Processing library (www.openmp.com)
     - TomGine 4.1: Visualization and rendering engine (http://users.acin.tuwien.ac.at/tmoerwald/?site=4)
  
-
-Installation:
-  mkdir build
-  cd build
-  cmake ..
-  make
 
   * Note that apps require TomGine 4.1 for visualization (http://users.acin.tuwien.ac.at/tmoerwald/?site=4)

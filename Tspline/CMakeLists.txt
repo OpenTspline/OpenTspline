@@ -9,9 +9,14 @@ if ( CGAL_FOUND )
   set(CMAKE_CXX_FLAGS "-frounding-math")
 	
 	# find dependent packages
-	find_package(PkgConfig REQUIRED)
-	pkg_search_module(EIGEN3 REQUIRED eigen3)
-	include_directories(${EIGEN3_INCLUDE_DIRS})
+if(WIN32 AND NOT CYGWIN)
+  set(EIGEN3_INCLUDE_DIRS "C:/Eigen/" CACHE PATH "Include directory for Eigen3 library.")
+else()
+  find_package(PkgConfig REQUIRED)
+  pkg_search_module(EIGEN3 REQUIRED eigen3)
+  include_directories(${EIGEN3_INCLUDE_DIRS})
+endif()
+
 
 	include( ${CGAL_USE_FILE} )
 	

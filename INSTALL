@@ -1,0 +1,11 @@
+
+Unix:
+  mkdir build
+  cd build
+  cmake ..
+  make
+
+WIN:
+  - manually set "EIGEN3_INCLUDE_DIRS"
+  - After generating the Visual Studio files, highlight the "tspline" project -> Properties -> C/C++ -> All Options and remove the option "--Wunused-function"
+  - Visual Studio: Project->Properties->C/C++->Code Generation->Enable C++ Exceptions:Yes
