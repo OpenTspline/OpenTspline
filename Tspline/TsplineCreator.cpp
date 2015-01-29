@@ -173,6 +173,7 @@ void TsplineCreator::CreateClampedPlaneXY(tspline::Tspline &tsp,
 
   // init vertices
   int vid(0);
+  double x1, y1;
   for(unsigned j=0; j<segY+1; j++)
   {
     double ycp = y0+j*dsegY;
@@ -184,19 +185,23 @@ void TsplineCreator::CreateClampedPlaneXY(tspline::Tspline &tsp,
       Tspline::Vertex_handle v = CGAL::insert_point(tsp, Point2d( x, y ));
       v->data().id = vid++;
       v->data().SetCP(Point3d(xcp,ycp,z0));
+      if(j==segY && i==segX)
+        x1 = x;
     }
+    if(j==segY)
+      y1 = y;
   }
 
   // init grid
   for(unsigned i=0; i<segX+1; i++)
   {
     double x = x0 + i * dgridX;
-    CGAL::insert( tsp, Segment2(Point2d (x, y0), Point2d (x, y0+height+2*dgridY)) );
+    CGAL::insert( tsp, Segment2(Point2d (x, y0), Point2d (x, y1)) );
   }
   for(unsigned j=0; j<segY+1; j++)
   {
     double y = y0 + j * dgridY;
-    CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x0+width+2*dgridX, y)) );
+    CGAL::insert( tsp, Segment2(Point2d (x0, y), Point2d (x1, y)) );
   }
 
   // init edge distances
@@ -235,7 +240,7 @@ void TsplineCreator::CreateClampedPlaneXY(tspline::Tspline &tsp,
   // update parameter space of tsp
   tsp.update_params();
   tsp.update_knot_vectors();
-  tsp.clamped = false;
+  tsp.clamped = false;  // this flag indicates artificial clamping
 }
 
 void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
@@ -245,8 +250,7 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
 {
   double dsegX(width / segX);
   double dsegY(height / segY);
-  double x1 = x0+width;
-  double y1 = y0+height;
+  double x1,y1;
   // init vertices
   int vid(0);
   for(unsigned j=0; j<segY+1; j++)
@@ -258,7 +262,11 @@ void TsplineCreator::CreatePlaneXY(tspline::Tspline &tsp,
       Tspline::Vertex_handle v = CGAL::insert_point(tsp, Point2d( x, y ));
       v->data().id = vid++;
       v->data().SetCP(Point3d(x,y,z0));
+      if(j==segY && i==segX)
+        x1 = x;
     }
+    if(j==segY)
+      y1 = y;
   }
   // init grid
   for(unsigned i=0; i<segX+1; i++)
@@ -291,8 +299,7 @@ void TsplineCreator::CreatePlaneYZ(tspline::Tspline &tsp,
 {
   double dsegY(width / segY);
   double dsegZ(height / segZ);
-  double y1 = y0+width;
-  double z1 = z0+width;
+  double y1,z1;
 
   // init vertices
   int vid(0);
@@ -305,7 +312,11 @@ void TsplineCreator::CreatePlaneYZ(tspline::Tspline &tsp,
       Tspline::Vertex_handle v = CGAL::insert_point(tsp, Point2d( y, z ));
       v->data().id = vid++;
       v->data().SetCP(Point3d(x0, y, z));
+      if(j==segZ && i==segY)
+        y1 = y;
     }
+    if(j==segZ)
+      z1 = z;
   }
 
   // init grid
@@ -341,8 +352,7 @@ void TsplineCreator::CreatePlaneXZ(tspline::Tspline &tsp,
 {
   double dsegX(width / segX);
   double dsegZ(height / segZ);
-  double x1=x0+width;
-  double z1=z0+height;
+  double x1,z1;
 
   // init vertices
   int vid(0);
@@ -355,7 +365,11 @@ void TsplineCreator::CreatePlaneXZ(tspline::Tspline &tsp,
       Tspline::Vertex_handle v = CGAL::insert_point(tsp, Point2d( x, z ));
       v->data().id = vid++;
       v->data().SetCP(Point3d(x,y0,z));
+      if(j==segZ && i==segX)
+        x1 = x;
     }
+    if(j==segZ)
+      z1 =z;
   }
 
   // init grid
