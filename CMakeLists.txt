@@ -9,7 +9,7 @@ set(INSTALL_INCLUDE_DIR include/${PROJECT_NAME} CACHE PATH
 if(WIN32 AND NOT CYGWIN)
   set(DEF_INSTALL_CMAKE_DIR CMake)
 else()
-  set(DEF_INSTALL_CMAKE_DIR lib/cmake/OpenTspline)
+  set(DEF_INSTALL_CMAKE_DIR lib/cmake/${PROJECT_NAME})
 endif()
 set(INSTALL_CMAKE_DIR ${DEF_INSTALL_CMAKE_DIR} CACHE PATH
   "Installation directory for CMake files")
@@ -27,6 +27,8 @@ add_definitions("-Wall -Wno-unused-function -fno-strict-aliasing -pthread")
 include_directories(.)
 
 include(openmp.cmake)
+
+set(LIBRARY_OUTPUT_PATH "${CMAKE_CURRENT_SOURCE_DIR}/lib")
 
 add_subdirectory(Tspline)
 add_subdirectory(apps)
